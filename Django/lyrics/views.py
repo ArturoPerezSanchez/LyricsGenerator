@@ -56,7 +56,7 @@ def artist(request, id):
 
 def training(request):
     if request.POST:
-        # train_model.train()
+        train_model.train()
         trained = True
         return redirect('generate')
     else:
@@ -76,6 +76,7 @@ def generate(request):
 
         print("....................")
         print(generated_song_list)
+
         return render(request, 'generate.html', {"res":generated_song_list})
 
     return render(request, 'generate.html', {})

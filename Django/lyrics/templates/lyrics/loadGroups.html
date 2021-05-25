@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script>
+  $("#loadGroups").click(function () {
+      $.ajax({
+        url: '{% url "loadingArtists" %}',
+        dataType: 'json',
+        beforeSend: function(){
+          $('#loading').show();
+        },
+        complete: function(){
+          $('#loading').hide();
+        },
+        success: function(data){
+          if (data.error) {
+            $('#error').show();
+          } else {
+            $('#loaded').show();
+            $('#loaded2').show();
+            $("#numArtists").text(data.numArtists);
+          }
+        }
+      });
+    });
+</script>
+{% endblock %}
+
+{% block navbar %}
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d6bf8d;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Lyrics Generator</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="">Load artists</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="mb-5 text-center contpage">
+    <h3>Load groups</h3>
+    Press the button to load current artists from azlyrics. This operation can take a few minutes. Then, you will be able to search them. <br> <br>
+
+    <button class="btn btn-primary" type="submit" id="loadGroups">Load groups</button>
+
+  <br><br>
+
+    <div class="spinner-border text-primary" role="status" id="loading" style="display:None">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <div class="alert alert-success" role="alert" id="loaded" style="display:None">
+      <span id="numArtists"> </span> groups have been loaded!
+    </div>
+    <br>
+    <a class="btn btn-primary mb-2" id="loaded2" href="{%url 'index' %}" style="display:None">Go to search</a>
+
+    <div class="alert alert-danger" role="alert" id="error" style="display:None">
+      Error loading!
+    </div>
+
+</div>
+    
+{% endblock %}

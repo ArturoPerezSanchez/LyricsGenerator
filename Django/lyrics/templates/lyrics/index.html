@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<!-- NavBar -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d6bf8d;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Lyrics Generator</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'loadArtists' %}">Load artists</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block content %}
+
+<div class="stepper-wrapper mt-5">
+  <div class="stepper-item active">
+    <div class="step-counter">1</div>
+    <div class="step-name">Search</div>
+  </div>
+  <div class="stepper-item">
+    <div class="step-counter">2</div>
+    <div class="step-name">Select</div>
+  </div>
+  <div class="stepper-item">
+    <div class="step-counter">3</div>
+    <div class="step-name">Train</div>
+  </div>
+  <div class="stepper-item">
+    <div class="step-counter">4</div>
+    <div class="step-name">Generate</div>
+  </div>
+</div>
+
+<div class="mb-5 text-center contpage">
+    <h1>Lyrics Generator</h1>
+
+    Search for groups to generate similar lyrics: <br><br>
+    {%if isLoaded == False %}
+  
+      <input type="text" class="w-25" name="q" id="groups" placeholder="Lady Gaga" disabled="disabled" style="height:40px;"> 
+      <button type="submit" class="btn btn-primary mb-2" disabled>Search</button>
+
+            <div class="alert alert-warning mt-4" role="alert" style="width:50%; margin:0 auto">
+        There are no groups loaded in database. Please, <a href="{%url 'loadArtists' %}">load it</a>
+      </div>
+
+    {% else %}
+      <form method="get">
+        <input type="text" class="w-25" name="q" id="groups" placeholder="Lady Gaga" style="height:40px;"> 
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+      </form>
+    {% endif %}
+
+
+
+{%if empty %}
+No results
+{% endif %}
+
+{%if groups %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col">Azlyrics artist page</th>
+      </tr>
+    </thead>
+    <tbody>
+          {% for group in groups %}
+              <tr>
+                <th> <a class="btn btn-primary" href="artist/{{ group.id }}" role="button">Select</a> </th>
+                <td>{{ group.name }}</td>
+                <td><a href="{{ group.url }}" target="_blank" >{{ group.url }}</a></td>
+              </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+</div>
+    
+{% endblock %}

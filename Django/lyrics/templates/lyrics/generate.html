@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<!-- NavBar -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d6bf8d;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Lyrics Generator</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'loadArtists' %}">Load artists</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+$("#process").click(function () {
+    $('#loading').show();
+    $('#loadingText').show();
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="stepper-wrapper mt-5">
+  <div class="stepper-item completed">
+    <div class="step-counter">1</div>
+    <div class="step-name">Search</div>
+  </div>
+  <div class="stepper-item completed">
+    <div class="step-counter">2</div>
+    <div class="step-name">Select</div>
+  </div>
+  <div class="stepper-item completed">
+    <div class="step-counter">3</div>
+    <div class="step-name">Train</div>
+  </div>
+  <div class="stepper-item active">
+    <div class="step-counter">4</div>
+    <div class="step-name">Generate</div>
+  </div>
+</div>
+
+<div class="mb-5 text-center contpage">
+
+    <h3 class="mb-4"> Generate </h3>
+
+    <div style="width: 50%; margin: 0 auto">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="firstWords" class="form-label">First words</label>
+                <input type="text" class="form-control" name="firstWords" id="firstWords" aria-describedby="firstWordsHelp">
+                <div id="firstWordsHelp" class="form-text">The song will start with these words (optional)</div>
+            </div>
+            <div class="mb-4">
+                <label for="max_length" class="form-label">Maximum length</label> <br>
+                    <input class="range" type="range" min="50" max="1024" value="100" step="1" name="max_length_val" onmousemove="max_length.value=value" aria-describedby="maxLengthHelp" />
+                    <output id="max_length"></output>
+                <div id="maxLengthHelp" class="form-text">Maximum length of the generated text</div>
+            </div>
+            <div class="mb-4">
+                <label for="verses" class="form-label">Number of verses</label> <br>
+                    <input class="range" type="range" min="1" max="10" value="1" step="1" name="verses_val" onmousemove="verses.value=value" aria-describedby="versesHelp" />
+                    <output id="verses"></output>
+                <div id="versesHelp" class="form-text"></div>
+            </div>
+            <div class="mb-4">
+                <label for="temperature" class="form-label">Temperature</label> <br>
+                    <input class="range" type="range" min="0" max="5.0" value="0.7" step=".1" name="temperature_val" onmousemove="temperature.value=value" aria-describedby="temperatureHelp" />
+                    <output id="temperature"></output>
+                <div id="temperatureHelp" class="form-text">Controls the "craziness" of the generated text</div>
+            </div>
+
+            <button class="btn btn-primary" type="submit" id="process">Generate</button>
+        </form>
+    </div>
+
+    <br>
+
+    {%if res %}
+        <div class="card" style="width:60%; margin:0 auto;">
+        <h5 class="card-header">Generated song</h5>
+        <div class="card-body">
+            <p class="card-text">
+            <pre>
+                {% for verse in res %}
+                    {{ verse }}
+                {% endfor %}
+            </pre>
+            </p>
+        </div>
+        </div>
+    {% endif %}
+
+</div>
+    
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<!-- NavBar -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d6bf8d;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Lyrics Generator</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'loadArtists' %}">Load artists</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+$("#process").click(function () {
+    $('#loading').show();
+    $('#loadingText').show();
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="stepper-wrapper mt-5">
+  <div class="stepper-item completed">
+    <div class="step-counter">1</div>
+    <div class="step-name">Search</div>
+  </div>
+  <div class="stepper-item completed">
+    <div class="step-counter">2</div>
+    <div class="step-name">Select</div>
+  </div>
+  <div class="stepper-item active">
+    <div class="step-counter">3</div>
+    <div class="step-name">Train</div>
+  </div>
+  <div class="stepper-item">
+    <div class="step-counter">4</div>
+    <div class="step-name">Generate</div>
+  </div>
+</div>
+
+
+<div class="mb-5 text-center contpage">
+
+    <h3> Training </h3>
+    Songs are stored in <i>song_lyrics.txt</i>, inside the data folder. Are you ready to train it? <br>
+
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit" id="process">Train model</button>
+    </form>
+
+    <br>
+    <div class="spinner-border text-primary" role="status" id="loading" style="display:None">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <br>
+    <span id="loadingText" style="display:None"> Model is training, check console </span>
+
+</div>
+    
+{% endblock %}

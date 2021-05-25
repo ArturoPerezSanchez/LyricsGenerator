@@ -5,6 +5,7 @@ from lyrics.models import Group
 import os
 from django.conf import settings
 import io
+import re
 
 # Cada uno de los índices corresponde a una página del tipo https://www.azlyrics.com/{index}.html, que contiene los 
 # artistas que empiezan por dicho carácter
@@ -119,8 +120,8 @@ def scrapAlbumsAndSongs(groupUrl):
             
             #El div con la letra de la canción siempre estará en 5º lugar, después de los divs del título y de las redes sociales
             raw_lyrics = column.findAll('div')[5].text
+            raw_lyrics = re.sub("[\(\[].*?[\)\]]", "", raw_lyrics) #Quitamos el contenido entre paréntesis y corchetes
             lyricsDict[song[0]] = raw_lyrics
-
 
     # Recorremos los álbumes
     for album in albumsDict:

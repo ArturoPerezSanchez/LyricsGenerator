@@ -21,6 +21,14 @@
 {% endblock %}
 
 {% block javascript %}
+<script>
+$('input').focus(function(){
+   $(this).data('placeholder',$(this).attr('placeholder'))
+          .attr('placeholder','');
+}).blur(function(){
+   $(this).attr('placeholder',$(this).data('placeholder'));
+});
+</script>
 {% endblock %}
 
 {% block content %}
@@ -50,10 +58,10 @@
     Search for groups to generate similar lyrics: <br><br>
     {%if isLoaded == False %}
   
-      <input type="text" class="w-25" name="q" id="groups" placeholder="Lady Gaga" disabled="disabled" style="height:40px;"> 
+      <input type="text" class="w-25" name="q" id="groups" placeholder="Lady Gaga" onclick="this.placeholder = 'dfd'" disabled="disabled" style="height:40px;"> 
       <button type="submit" class="btn btn-primary mb-2" disabled>Search</button>
 
-            <div class="alert alert-warning mt-4" role="alert" style="width:50%; margin:0 auto">
+      <div class="alert alert-warning mt-4" role="alert" style="width:50%; margin:0 auto">
         There are no groups loaded in database. Please, <a href="{%url 'loadArtists' %}">load it</a>
       </div>
 
@@ -72,7 +80,7 @@ No results
 
 {%if groups %}
 <br>
-  <table class="table table-hover">
+  <table class="table table-hover" style="width:70%; margin:0 auto">
     <thead>
       <tr>
         <th scope="col"></th>

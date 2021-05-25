@@ -24,7 +24,6 @@
 <script>
 $("#process").click(function () {
     $('#loading').show();
-    $('#loadingText').show();
 });
 </script>
 {% endblock %}
@@ -57,16 +56,33 @@ $("#process").click(function () {
 
     <form method="post" class="mt-4">
         {% csrf_token %}
+
+    {%if isProcessed  %}
         <button class="btn btn-primary" type="submit" id="process">Train model</button>
+    {% else %}
+        <div class="alert alert-warning mt-4" role="alert" style="width:50%; margin:0 auto">
+          There are no processed songs. Have you <a href="/">processed some albums</a>?
+      </div><br>
+        <button class="btn btn-primary" type="submit" id="process" disabled>Train model</button>
+    {% endif %}
+        
     </form>
 
-    <br>
-    <div class="spinner-border text-primary" role="status" id="loading" style="display:None">
-      <span class="visually-hidden">Loading...</span>
+    <div id="loading" style="display:None">
+      <br>
+      <div class="spinner-border text-primary" role="status" >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <br>
+      <span> Model is training, check console... </span>
     </div>
-    <br>
-    <span id="loadingText" style="display:None"> Model is training, check console </span>
 
+    {%if isTrained %}
+      <div class="alert alert-success mt-4" role="alert" style="width:50%; margin:0 auto">
+          Model has been trained. Go and generate some lyrics! <br>
+          <a class="btn btn-primary mt-2" href="{% url "generate" %}" role="button">Generate</a>
+      </div>
+    {% endif %}
 </div>
     
 {% endblock %}

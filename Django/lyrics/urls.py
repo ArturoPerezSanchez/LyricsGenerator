@@ -7,6 +7,6 @@ urlpatterns = [
     path('loading-artists', views.loadingArtists, name='loadingArtists'),
     path('artist/<int:id>', views.artist, name='artist'),
     # path('process-songs/<int:id>', views.artist, name='artist'),
-    path('training', views.training, name='training'),
+    path('train', views.train, name='train'),
     path('generate', views.generate, name='generate')
 ]

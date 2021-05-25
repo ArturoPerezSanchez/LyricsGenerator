@@ -3,6 +3,8 @@ from lyrics.utils import scrap, train_model, generate_from_model
 from django.http import JsonResponse
 from lyrics.models import Group
 from django.shortcuts import redirect
+import os
+from django.conf import settings
 
 # Create your views here.
 def index(request):
@@ -44,7 +46,7 @@ def artist(request, id):
         artist = Group.objects.get(id=artistId)
         scrap.scrapAlbumsAndSongs(artist.url) 
 
-        return redirect('training')
+        return redirect('train')
 
     else:
         artistId = id
@@ -53,14 +55,19 @@ def artist(request, id):
 
         return render(request, 'displayArtist.html', {"artist":artist, "albums":albums})
 
+def train(request):
+    song_lyrics = os.path.join(settings.BASE_DIR, "lyrics/data/song_lyrics.txt")
+    isTrained = False
+    isProcessed = True
 
-def training(request):
     if request.POST:
         train_model.train()
-        trained = True
-        return redirect('generate')
+        isTrained = True
+        return render(request, 'train.html', {"isTrained":isTrained, "isProcessed":isProcessed})
     else:
-        return render(request, 'training.html', {})
+        if not os.path.exists(song_lyrics):
+            isProcessed = False
+        return render(request, 'train.html', {"isProcessed":isProcessed})
 
 
 def generate(request):

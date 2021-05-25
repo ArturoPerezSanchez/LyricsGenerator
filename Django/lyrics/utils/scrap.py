@@ -14,7 +14,7 @@ indexes = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
 baseUrl = "https://www.azlyrics.com/"
 sufix = ".html"
 
-wait_time = 5
+wait_time = 8
 
 def scrapArtists():
     #Borramos la bd si tiene elementos

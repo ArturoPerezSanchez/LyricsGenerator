@@ -8,6 +8,7 @@ __pycache__/
 
 #Local env
 my_env/
+myenv/
 
 # Distribution / packaging
 .Python

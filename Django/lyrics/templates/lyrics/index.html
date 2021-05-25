@@ -71,6 +71,7 @@ No results
 {% endif %}
 
 {%if groups %}
+<br>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -81,7 +82,7 @@ No results
     </thead>
     <tbody>
           {% for group in groups %}
-              <tr>
+              <tr class="align-middle">
                 <th> <a class="btn btn-primary" href="artist/{{ group.id }}" role="button">Select</a> </th>
                 <td>{{ group.name }}</td>
                 <td><a href="{{ group.url }}" target="_blank" >{{ group.url }}</a></td>

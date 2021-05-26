@@ -23,6 +23,7 @@ def train():
     config = GPT2ConfigCPU()
 
     # Instantiate aitextgen using the created tokenizer and config.
+    # AÑADIR to_gpu=True COMO PARÁMETRO SI SE TIENE INSTALADO CUDA CORRECTAMENTE
     ai = aitextgen(tokenizer_file=tokenizer_file, config=config)
 
     # You can build datasets for training by creating TokenDatasets,
@@ -30,5 +31,4 @@ def train():
     data = TokenDataset(file_name, tokenizer_file=tokenizer_file, block_size=64)
 
     # Train the model! It will save pytorch_model.bin periodically and after completion to the `trained_model` folder.
-    # On a 2020 8-core iMac, this took ~25 minutes to run.
     ai.train(data, batch_size=16, num_steps=10000)

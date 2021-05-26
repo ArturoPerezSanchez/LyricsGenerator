@@ -78,11 +78,6 @@ def generate(request):
         verses = int(request.POST.get('verses_val'))
 
         generated_song_list = generate_from_model.generate(verses, firstWords, max_length, temperature)
-        
-        [x.encode('utf-8') for x in generated_song_list] #TODO seguramente no haga falta esto tras haber corregido los scrappings
-
-        print("....................")
-        print(generated_song_list)
 
         return render(request, 'generate.html', {"res":generated_song_list})
 

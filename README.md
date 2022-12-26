@@ -4,8 +4,8 @@ LyricsGenerator uses the NLP models of hugging face and after fine tuning them w
 Hey! Look at the lyrics of this song, it was made by an AI imitating Michael Jackson's style, isn't it cool?
 
 #### Verse 1:
-I'm standing here, all alone
-Feeling lost and on my own
+I'm standing here, all alone \n
+Feeling lost and on my own \n
 But I know that I'm not alone
 'Cause I've got you, my love
 
